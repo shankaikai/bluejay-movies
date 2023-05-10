@@ -13,7 +13,7 @@ import YearFilter from "./YearFilter";
 
 export default function FilterInput(): JSX.Element {
   return (
-    <Flex direction="row" columnGap="sm" align="center">
+    <Flex direction="row" columnGap="sm" justify="center" align="center">
       <Filter size="2rem" />
       <Text>Filters: </Text>
       <GenreFilter />
