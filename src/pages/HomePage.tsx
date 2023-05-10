@@ -1,6 +1,7 @@
 import React from "react";
 import useMovieQuery from "../hooks/useMovieQuery";
-import Layout from "../components/Layout/Layout";
+import { Flex } from "@mantine/core";
+import FilterInput from "../components/FilterInput/FilterInput";
 
 export default function HomePage(): JSX.Element {
   const { isLoading, data, error } = useMovieQuery();
@@ -13,5 +14,9 @@ export default function HomePage(): JSX.Element {
     return <div>Error</div>;
   }
 
-  return <Layout>Hi</Layout>;
+  return (
+    <Flex direction="column" rowGap="md">
+      <FilterInput />
+    </Flex>
+  );
 }
