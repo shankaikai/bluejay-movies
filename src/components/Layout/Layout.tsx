@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps) {
     <Flex direction={"column"}>
       <MainHeader />
       <Divider />
-      <Container fluid p={"xl"} sx={{ width: "100%" }}>
+      <Container fluid p={"xl"} sx={{ width: "100%", maxWidth: "1280px" }}>
         {children}
       </Container>
     </Flex>

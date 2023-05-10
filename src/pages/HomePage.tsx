@@ -4,7 +4,6 @@ import FilterInput from "../components/FilterInput/FilterInput";
 import { MoviesContext } from "../hooks/useMoviesContext";
 import MoviesGrid from "../components/MoviesGrid/MoviesGrid";
 import MovieCard from "../components/MoviesGrid/MovieCard";
-import { Container } from "tabler-icons-react";
 
 export default function HomePage(): JSX.Element {
   const { filteredMovies, isLoading } = useContext(MoviesContext);

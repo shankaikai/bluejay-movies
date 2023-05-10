@@ -21,7 +21,7 @@ export default function App(): JSX.Element {
       errorElement: <ErrorPage />,
     },
     {
-      path: "movie/:id",
+      path: "movie/:index",
       element: (
         <Layout>
           <MoviePage />
