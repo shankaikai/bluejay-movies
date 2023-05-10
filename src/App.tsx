@@ -6,6 +6,8 @@ import MoviePage from "./pages/MoviePage";
 import ErrorPage from "./pages/ErrorPage";
 
 export default function App(): JSX.Element {
+  const queryClient = new QueryClient();
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -25,8 +27,10 @@ export default function App(): JSX.Element {
   ]);
 
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
-      <RouterProvider router={router} />
-    </MantineProvider>
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
+        <RouterProvider router={router} />
+      </MantineProvider>
+    </QueryClientProvider>
   );
 }
