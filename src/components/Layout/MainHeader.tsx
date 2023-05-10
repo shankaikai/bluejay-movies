@@ -1,4 +1,3 @@
-import React from "react";
 import { Flex, Text, useMantineTheme } from "@mantine/core";
 import { Movie } from "tabler-icons-react";
 import { useNavigate } from "react-router-dom";

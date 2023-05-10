@@ -1,5 +1,4 @@
 import { Button, Flex, NumberInput, Popover } from "@mantine/core";
-import React from "react";
 import { FilterInputProps } from "./FilterInput";
 
 export default function YearFilter({

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { MoviesContext } from "../hooks/useMoviesContext";
 import { Center, Flex, Loader, Text, Image, Group } from "@mantine/core";

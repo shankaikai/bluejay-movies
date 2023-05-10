@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import { Dispatch } from "react";
 import { Flex, Text } from "@mantine/core";
 import { Filter } from "tabler-icons-react";
 import GenreFilter from "./GenreFilter";
