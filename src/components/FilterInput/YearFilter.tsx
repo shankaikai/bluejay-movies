@@ -10,19 +10,23 @@ export default function YearFilter({
     filters.startYear !== 1900 || filters.endYear !== new Date().getFullYear();
 
   function handleStartChange(year: number | "") {
-    setFilters &&
-      setFilters({
-        ...filters,
-        startYear: year as number,
-      });
+    if ((year as number) >= 1900) {
+      setFilters &&
+        setFilters({
+          ...filters,
+          startYear: year as number,
+        });
+    }
   }
 
   function handleEndChange(year: number | "") {
-    setFilters &&
-      setFilters({
-        ...filters,
-        endYear: year as number,
-      });
+    if ((year as number) <= new Date().getFullYear()) {
+      setFilters &&
+        setFilters({
+          ...filters,
+          endYear: year as number,
+        });
+    }
   }
 
   return (
