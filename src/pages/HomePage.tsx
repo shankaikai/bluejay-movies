@@ -3,7 +3,7 @@ import { Flex } from "@mantine/core";
 import FilterInput from "../components/FilterInput/FilterInput";
 import { MoviesContext } from "../hooks/useMoviesContext";
 import MoviesGrid from "../components/MoviesGrid/MoviesGrid";
-import Movie from "../components/MoviesGrid/Movie";
+import MovieCard from "../components/MoviesGrid/MovieCard";
 
 export default function HomePage(): JSX.Element {
   const { filteredMovies } = useContext(MoviesContext);
@@ -14,7 +14,7 @@ export default function HomePage(): JSX.Element {
       <FilterInput />
       <MoviesGrid>
         {filteredMovies.map((movie, index) => (
-          <Movie key={index} />
+          <MovieCard key={index} movie={movie}/>
         ))}
       </MoviesGrid>
     </Flex>
