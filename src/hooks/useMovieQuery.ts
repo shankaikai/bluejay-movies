@@ -12,13 +12,17 @@ export interface Movie {
   synopsisShort: string;
 }
 
-async function fetchMovies(): Promise<Array<Movie>> {
-  const { data } = await axios.get(
-    "https://remarkable-bombolone-51a3d9.netlify.app/.netlify/functions/movies"
-  );
-  return data;
+async function fetchMovies(): Promise<Movie[]> {
+  return await axios
+    .get(
+      "https://remarkable-bombolone-51a3d9.netlify.app/.netlify/functions/movies"
+    )
+    .then((response) => response.data)
+    .catch((err) => {
+      throw Error(err);
+    });
 }
 
-export default function useMovieQuery(): ReturnType<typeof useQuery> {
-  return useQuery(MOVIE_QUERY_KEY, fetchMovies, { retry: 2 });
+export default function useMovieQuery() {
+  return useQuery<Movie[], Error>(MOVIE_QUERY_KEY, fetchMovies, { retry: 2 });
 }
