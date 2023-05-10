@@ -8,15 +8,21 @@ import {
   Badge,
   useMantineTheme,
 } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 
 interface MovieCardProps {
+  index: number;
   movie: Movie;
 }
 
 // MovieCard uses an image placeholder since image links were not provided
-export default function MovieCard({ movie }: MovieCardProps): JSX.Element {
+export default function MovieCard({
+  index,
+  movie,
+}: MovieCardProps): JSX.Element {
   const { genre, name, productionYear, synopsisShort } = movie;
   const theme = useMantineTheme();
+  const navigate = useNavigate();
 
   return (
     <Card
@@ -30,6 +36,7 @@ export default function MovieCard({ movie }: MovieCardProps): JSX.Element {
           cursor: "pointer",
         },
       }}
+      onClick={() => navigate(`/movie/${index}`)}
     >
       <Card.Section>
         <Image

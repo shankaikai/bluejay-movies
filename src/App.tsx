@@ -13,14 +13,21 @@ export default function App(): JSX.Element {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <HomePage />,
+      element: (
+        <Layout>
+          <HomePage />
+        </Layout>
+      ),
       errorElement: <ErrorPage />,
-      children: [
-        {
-          path: "/movie/:id",
-          element: <MoviePage />,
-        },
-      ],
+    },
+    {
+      path: "movie/:id",
+      element: (
+        <Layout>
+          <MoviePage />
+        </Layout>
+      ),
+      errorElement: <ErrorPage />,
     },
     {
       path: "/*",
@@ -32,9 +39,7 @@ export default function App(): JSX.Element {
     <QueryClientProvider client={queryClient}>
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <MoviesProvider>
-          <Layout>
-            <RouterProvider router={router} />
-          </Layout>
+          <RouterProvider router={router} />
         </MoviesProvider>
       </MantineProvider>
     </QueryClientProvider>
