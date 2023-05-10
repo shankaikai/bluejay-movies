@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Flex,
-  MultiSelect,
-  Popover,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Flex, Text } from "@mantine/core";
 import { Filter } from "tabler-icons-react";
 import GenreFilter from "./GenreFilter";
 import YearFilter from "./YearFilter";

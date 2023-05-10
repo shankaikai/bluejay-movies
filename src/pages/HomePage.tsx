@@ -10,7 +10,7 @@ export default function HomePage(): JSX.Element {
   console.log(filteredMovies);
 
   return (
-    <Flex direction="column" rowGap="md">
+    <Flex direction="column" rowGap="xl">
       <FilterInput />
       <MoviesGrid>
         {filteredMovies.map((movie, index) => (
