@@ -1,31 +1,26 @@
 import { Dispatch } from "react";
-import { FiltersInterface } from "../hooks/useMoviesContext";
-import { Movie } from "../hooks/useMovieQuery";
+import { FiltersInterface, IndexedMovie } from "../hooks/useMoviesContext";
 
 export default function filterMovies(
-  data: Movie[],
-  setFilteredMovies: Dispatch<Movie[]>,
+  indexedMovies: IndexedMovie[],
+  setFilteredMovies: Dispatch<IndexedMovie[]>,
   filters: FiltersInterface
 ) {
-  let filteredMovies = data;
+  let filteredMovies = indexedMovies;
 
-  if (filters.genres) {
+  if (filters.genres.length > 0) {
     filteredMovies = filteredMovies.filter((movie) =>
       filters.genres.includes(movie.genre)
     );
   }
 
-  if (filters.startYear) {
-    filteredMovies = filteredMovies.filter(
-      (movie) => movie.productionYear >= filters.startYear
-    );
-  }
+  filteredMovies = filteredMovies.filter(
+    (movie) => movie.productionYear >= filters.startYear
+  );
 
-  if (filters.endYear) {
-    filteredMovies = filteredMovies.filter(
-      (movie) => movie.productionYear <= filters.endYear
-    );
-  }
+  filteredMovies = filteredMovies.filter(
+    (movie) => movie.productionYear <= filters.endYear
+  );
 
   setFilteredMovies(filteredMovies);
 }

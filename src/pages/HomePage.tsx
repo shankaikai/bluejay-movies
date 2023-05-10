@@ -6,7 +6,8 @@ import MoviesGrid from "../components/MoviesGrid/MoviesGrid";
 import MovieCard from "../components/MoviesGrid/MovieCard";
 
 export default function HomePage(): JSX.Element {
-  const { filteredMovies, isLoading } = useContext(MoviesContext);
+  const { filteredMovies, isLoading, setFilters, filters } =
+    useContext(MoviesContext);
 
   if (isLoading) {
     return (
@@ -18,7 +19,7 @@ export default function HomePage(): JSX.Element {
 
   return (
     <Flex direction="column" rowGap="xl">
-      <FilterInput />
+      <FilterInput filters={filters} setFilters={setFilters} />
       <MoviesGrid>
         {filteredMovies.map((movie, index) => (
           <MovieCard key={index} movie={movie} index={index} />

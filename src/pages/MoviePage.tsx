@@ -7,7 +7,7 @@ import { processText } from "../helpers/processText";
 export default function MoviePage(): JSX.Element {
   const { index } = useParams();
 
-  const { data, isLoading } = useContext(MoviesContext);
+  const { indexedMovies, isLoading } = useContext(MoviesContext);
 
   if (isLoading) {
     return (
@@ -17,7 +17,7 @@ export default function MoviePage(): JSX.Element {
     );
   }
 
-  const movie = data && index && data[parseInt(index)];
+  const movie = indexedMovies && index && indexedMovies[parseInt(index)];
 
   return (
     <>
@@ -38,8 +38,8 @@ export default function MoviePage(): JSX.Element {
             {movie.productionYear} • {movie.genre}
           </Text>
           <Text fw="bold">Synopsis: </Text>
-          {processText(movie.synopsis).map((paragraph) => (
-            <Text>{paragraph}</Text>
+          {processText(movie.synopsis).map((paragraph, i) => (
+            <Text key={i}>{paragraph}</Text>
           ))}
         </Flex>
       ) : (

@@ -1,5 +1,6 @@
 import { Dispatch, createContext, useEffect, useState } from "react";
 import useMovieQuery, { Movie } from "./useMovieQuery";
+import filterMovies from "../helpers/filterMovies";
 
 export interface IndexedMovie extends Movie {
   index: number;
@@ -13,7 +14,7 @@ export interface FiltersInterface {
 
 interface MoviesContextInterface {
   isLoading: boolean;
-  data?: Movie[];
+  indexedMovies: IndexedMovie[];
   filteredMovies: IndexedMovie[];
   filters: FiltersInterface;
   setFilters?: Dispatch<FiltersInterface>;
@@ -22,6 +23,7 @@ interface MoviesContextInterface {
 
 export const MoviesContext = createContext<MoviesContextInterface>({
   isLoading: false,
+  indexedMovies: [],
   filteredMovies: [],
   filters: {
     genres: [],
@@ -36,6 +38,7 @@ interface MoviesProviderProps {
 
 export function MoviesProvider({ children }: MoviesProviderProps) {
   const { isLoading, data, error } = useMovieQuery();
+  const [indexedMovies, setIndexedMovies] = useState<IndexedMovie[]>([]);
   const [filteredMovies, setFilteredMovies] = useState<IndexedMovie[]>([]);
   const [filters, setFilters] = useState<FiltersInterface>({
     genres: [],
@@ -49,9 +52,9 @@ export function MoviesProvider({ children }: MoviesProviderProps) {
   }
 
   useEffect(() => {
-    let indexedMovies;
+    let indexedMoviesList;
     if (data) {
-      indexedMovies = data.map((movie, index) => {
+      indexedMoviesList = data.map((movie, index) => {
         return {
           index,
           ...movie,
@@ -59,14 +62,21 @@ export function MoviesProvider({ children }: MoviesProviderProps) {
       });
     }
 
-    indexedMovies && setFilteredMovies(indexedMovies);
+    indexedMoviesList && setFilteredMovies(indexedMoviesList);
+    indexedMoviesList && setIndexedMovies(indexedMoviesList);
   }, [data]);
+
+  useEffect(() => {
+    indexedMovies &&
+      setFilteredMovies &&
+      filterMovies(indexedMovies, setFilteredMovies, filters);
+  }, [filters]);
 
   return (
     <MoviesContext.Provider
       value={{
         isLoading,
-        data,
+        indexedMovies,
         filteredMovies,
         filters,
         setFilters,
