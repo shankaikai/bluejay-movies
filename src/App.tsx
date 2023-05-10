@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
 import ErrorPage from "./pages/ErrorPage";
 import Layout from "./components/Layout/Layout";
+import { MoviesProvider } from "./hooks/useMoviesContext";
 
 export default function App(): JSX.Element {
   const queryClient = new QueryClient();
@@ -30,9 +31,11 @@ export default function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider withGlobalStyles withNormalizeCSS>
-        <Layout>
-          <RouterProvider router={router} />
-        </Layout>
+        <MoviesProvider>
+          <Layout>
+            <RouterProvider router={router} />
+          </Layout>
+        </MoviesProvider>
       </MantineProvider>
     </QueryClientProvider>
   );
