@@ -1,4 +1,3 @@
-import { Movie } from "../../hooks/useMovieQuery";
 import {
   Card,
   Group,
@@ -8,18 +7,15 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { IndexedMovie } from "../../hooks/useMoviesContext";
 
 interface MovieCardProps {
-  index: number;
-  movie: Movie;
+  movie: IndexedMovie;
 }
 
 // MovieCard uses an image placeholder since image links were not provided
-export default function MovieCard({
-  index,
-  movie,
-}: MovieCardProps): JSX.Element {
-  const { genre, name, productionYear, synopsisShort } = movie;
+export default function MovieCard({ movie }: MovieCardProps): JSX.Element {
+  const { genre, index, name, productionYear, synopsisShort } = movie;
   const theme = useMantineTheme();
   const navigate = useNavigate();
 
