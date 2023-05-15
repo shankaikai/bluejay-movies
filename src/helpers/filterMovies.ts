@@ -1,24 +1,35 @@
-import { FiltersInterface, IndexedMovie } from "../hooks/useMoviesContext";
+import { FilterType, IndexedMovie } from "../hooks/useMoviesContext";
+
+export type Genre = "Action" | "Animation" | "Comedy" | "Adventure" | "Fantasy";
 
 export default function filterMovies(
   indexedMovies: IndexedMovie[],
-  filters: FiltersInterface
+  filters: FilterType[]
 ) {
   let filteredMovies = indexedMovies;
 
-  if (filters.genres.length > 0) {
-    filteredMovies = filteredMovies.filter((movie) =>
-      filters.genres.includes(movie.genre)
-    );
-  }
+  filters.map((filterValue) => {
+    switch (filterValue.type) {
+      case "Genre":
+        if (filterValue.genres.length > 0) {
+          filteredMovies = filteredMovies.filter((movie) =>
+            filterValue.genres.includes(movie.genre)
+          );
+        }
+        break;
 
-  filteredMovies = filteredMovies.filter(
-    (movie) => movie.productionYear >= filters.startYear
-  );
+      case "Year":
+        filteredMovies = filteredMovies.filter(
+          (movie) =>
+            movie.productionYear >= filterValue.startYear &&
+            movie.productionYear <= filterValue.endYear
+        );
+        break;
 
-  filteredMovies = filteredMovies.filter(
-    (movie) => movie.productionYear <= filters.endYear
-  );
+      default:
+        break;
+    }
+  });
 
   return filteredMovies;
 }

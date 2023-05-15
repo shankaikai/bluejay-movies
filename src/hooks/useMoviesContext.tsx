@@ -1,31 +1,35 @@
 import { Dispatch, createContext, useEffect, useState } from "react";
 import useMovieQuery, { Movie } from "./useMovieQuery";
+import { Genre } from "../helpers/filterMovies";
 
 export interface IndexedMovie extends Movie {
   index: number;
 }
 
-export interface FiltersInterface {
-  genres: string[];
+export type GenreFilter = {
+  type: "Genre";
+  genres: Genre[];
+};
+
+export type YearFilter = {
+  type: "Year";
   startYear: number;
   endYear: number;
-}
+};
+
+export type FilterType = GenreFilter | YearFilter;
 
 interface MoviesContextInterface {
   isLoading: boolean;
   indexedMovies: IndexedMovie[];
-  filters: FiltersInterface;
-  setFilters?: Dispatch<FiltersInterface>;
+  filters: FilterType[];
+  setFilters?: Dispatch<FilterType[]>;
 }
 
 export const MoviesContext = createContext<MoviesContextInterface>({
   isLoading: false,
   indexedMovies: [],
-  filters: {
-    genres: [],
-    startYear: 1900,
-    endYear: new Date().getFullYear(),
-  },
+  filters: [],
 });
 
 interface MoviesProviderProps {
@@ -35,11 +39,17 @@ interface MoviesProviderProps {
 export function MoviesProvider({ children }: MoviesProviderProps) {
   const { isLoading, data, error } = useMovieQuery();
   const [indexedMovies, setIndexedMovies] = useState<IndexedMovie[]>([]);
-  const [filters, setFilters] = useState<FiltersInterface>({
-    genres: [],
-    startYear: 1900,
-    endYear: new Date().getFullYear(),
-  });
+  const [filters, setFilters] = useState<FilterType[]>([
+    {
+      type: "Genre",
+      genres: [],
+    },
+    {
+      type: "Year",
+      startYear: 1900,
+      endYear: new Date().getFullYear()
+    }
+  ]);
 
   // Go to fallback error page
   if (error) {

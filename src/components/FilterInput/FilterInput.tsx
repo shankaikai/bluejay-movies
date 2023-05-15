@@ -1,13 +1,14 @@
 import { Dispatch } from "react";
 import { Flex, Text } from "@mantine/core";
 import { Filter } from "tabler-icons-react";
-import GenreFilter from "./GenreFilter";
-import YearFilter from "./YearFilter";
-import { FiltersInterface } from "../../hooks/useMoviesContext";
+import GenreFilterInput from "./GenreFilter";
+import YearFilterInput from "./YearFilter";
+import { FilterType } from "../../hooks/useMoviesContext";
 
 export interface FilterInputProps {
-  setFilters?: Dispatch<FiltersInterface>;
-  filters: FiltersInterface;
+  setFilters?: Dispatch<FilterType[]>;
+  filters: FilterType[];
+  index?: number;
 }
 
 export default function FilterInput({
@@ -18,8 +19,34 @@ export default function FilterInput({
     <Flex direction="row" columnGap="sm" justify="center" align="center">
       <Filter size="2rem" />
       <Text>Filters: </Text>
-      <GenreFilter setFilters={setFilters} filters={filters} />
-      <YearFilter setFilters={setFilters} filters={filters} />
+      {filters.map((filter, index) => {
+        switch (filter.type) {
+          case "Genre":
+            return (
+              <GenreFilterInput
+                setFilters={setFilters}
+                filters={filters}
+                filter={filter}
+                index={index}
+              />
+            );
+            break;
+
+          case "Year":
+            return (
+              <YearFilterInput
+                setFilters={setFilters}
+                filters={filters}
+                filter={filter}
+                index={index}
+              />
+            );
+            break;
+
+          default:
+            break;
+        }
+      })}
     </Flex>
   );
 }

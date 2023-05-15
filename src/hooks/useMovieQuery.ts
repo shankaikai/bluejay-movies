@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useQuery } from "react-query";
+import { Genre } from "../helpers/filterMovies";
 
 export const MOVIE_QUERY_KEY = "movies";
 
 export interface Movie {
-  genre: string;
+  genre: Genre;
   image: string;
   name: string;
   productionYear: number;
