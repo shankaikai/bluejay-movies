@@ -15,16 +15,13 @@ export interface FiltersInterface {
 interface MoviesContextInterface {
   isLoading: boolean;
   indexedMovies: IndexedMovie[];
-  filteredMovies: IndexedMovie[];
   filters: FiltersInterface;
   setFilters?: Dispatch<FiltersInterface>;
-  setFilteredMovies?: Dispatch<IndexedMovie[]>;
 }
 
 export const MoviesContext = createContext<MoviesContextInterface>({
   isLoading: false,
   indexedMovies: [],
-  filteredMovies: [],
   filters: {
     genres: [],
     startYear: 1900,
@@ -39,7 +36,6 @@ interface MoviesProviderProps {
 export function MoviesProvider({ children }: MoviesProviderProps) {
   const { isLoading, data, error } = useMovieQuery();
   const [indexedMovies, setIndexedMovies] = useState<IndexedMovie[]>([]);
-  const [filteredMovies, setFilteredMovies] = useState<IndexedMovie[]>([]);
   const [filters, setFilters] = useState<FiltersInterface>({
     genres: [],
     startYear: 1900,
@@ -62,14 +58,12 @@ export function MoviesProvider({ children }: MoviesProviderProps) {
       });
     }
 
-    indexedMoviesList && setFilteredMovies(indexedMoviesList);
     indexedMoviesList && setIndexedMovies(indexedMoviesList);
   }, [data]);
 
   useEffect(() => {
     indexedMovies &&
-      setFilteredMovies &&
-      filterMovies(indexedMovies, setFilteredMovies, filters);
+      filterMovies(indexedMovies, filters);
   }, [filters]);
 
   return (
@@ -77,10 +71,8 @@ export function MoviesProvider({ children }: MoviesProviderProps) {
       value={{
         isLoading,
         indexedMovies,
-        filteredMovies,
         filters,
         setFilters,
-        setFilteredMovies,
       }}
     >
       {children}
