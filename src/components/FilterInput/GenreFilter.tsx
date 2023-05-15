@@ -1,24 +1,46 @@
+import { Dispatch } from "react";
 import { Button, MultiSelect, Popover } from "@mantine/core";
-import { FilterInputProps } from "./FilterInput";
+import { Genre } from "../../helpers/filterMovies";
+import { FilterType, GenreFilter } from "../../hooks/useMoviesContext";
+import _ from "lodash";
 
-const genreData = ["Action", "Animation", "Comedy", "Adventure", "Fantasy"];
+const genreData: Genre[] = [
+  "Action",
+  "Animation",
+  "Comedy",
+  "Adventure",
+  "Fantasy",
+];
 
-export default function GenreFilter({
+interface GenreFilterProps {
+  setFilters?: Dispatch<FilterType[]>;
+  filters: FilterType[];
+  filter: GenreFilter;
+  index: number;
+}
+
+export default function GenreFilterInput({
   setFilters,
   filters,
-}: FilterInputProps): JSX.Element {
+  filter,
+  index,
+}: GenreFilterProps): JSX.Element {
   function handleChange(values: string[]) {
-    setFilters &&
-      setFilters({
-        ...filters,
-        genres: values,
-      });
+    const cloneFilters: FilterType[] = _.cloneDeep(filters);
+
+    const newGenreFilter: GenreFilter = {
+      type: "Genre",
+      genres: values as Genre[],
+    };
+
+    cloneFilters[index] = newGenreFilter;
+    setFilters && setFilters(cloneFilters);
   }
 
   return (
     <Popover width={300} position="bottom" withArrow shadow="md">
       <Popover.Target>
-        <Button color={filters.genres.length > 0 ? "blue" : "gray"}>
+        <Button color={filter.genres.length > 0 ? "blue" : "gray"}>
           Genre
         </Button>
       </Popover.Target>
@@ -26,7 +48,7 @@ export default function GenreFilter({
         <MultiSelect
           placeholder="Pick your favourites"
           data={genreData}
-          value={filters.genres}
+          value={filter.genres}
           onChange={(values) => handleChange(values)}
         />
       </Popover.Dropdown>

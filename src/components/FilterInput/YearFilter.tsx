@@ -1,30 +1,43 @@
+import { Dispatch } from "react";
 import { Button, Flex, NumberInput, Popover } from "@mantine/core";
-import { FilterInputProps } from "./FilterInput";
+import { FilterType, YearFilter } from "../../hooks/useMoviesContext";
+import _ from "lodash";
 
-export default function YearFilter({
+const DEFAULT_START_YEAR = 1900;
+const DEFAULT_END_YEAR = new Date().getFullYear();
+interface YearFilterProps {
+  setFilters?: Dispatch<FilterType[]>;
+  filters: FilterType[];
+  filter: YearFilter;
+  index: number;
+}
+
+export default function YearFilterInput({
   setFilters,
   filters,
-}: FilterInputProps): JSX.Element {
+  filter,
+  index,
+}: YearFilterProps): JSX.Element {
   const isActive =
-    filters.startYear !== 1900 || filters.endYear !== new Date().getFullYear();
+    filter.startYear !== DEFAULT_START_YEAR ||
+    filter.endYear !== new Date().getFullYear();
 
-  function handleStartChange(year: number | "") {
-    if ((year as number) >= 1900) {
-      setFilters &&
-        setFilters({
-          ...filters,
-          startYear: year as number,
-        });
-    }
-  }
+  function handleChange(year: number | "", type: "start" | "end") {
+    if (
+      typeof year == "number" &&
+      year >= DEFAULT_START_YEAR &&
+      year <= DEFAULT_END_YEAR
+    ) {
+      const cloneFilters: FilterType[] = _.cloneDeep(filters);
 
-  function handleEndChange(year: number | "") {
-    if ((year as number) <= new Date().getFullYear()) {
-      setFilters &&
-        setFilters({
-          ...filters,
-          endYear: year as number,
-        });
+      const newYearFilter: YearFilter = {
+        type: "Year",
+        startYear: type === "start" ? year : filter.startYear,
+        endYear: type === "end" ? year : filter.endYear,
+      };
+
+      cloneFilters[index] = newYearFilter;
+      setFilters && setFilters(cloneFilters);
     }
   }
 
@@ -37,13 +50,13 @@ export default function YearFilter({
         <Flex columnGap="sm" direction="row">
           <NumberInput
             label="From"
-            value={filters.startYear}
-            onChange={(year) => handleStartChange(year)}
+            value={filter.startYear}
+            onChange={(year) => handleChange(year, "start")}
           />
           <NumberInput
             label="To"
-            value={filters.endYear}
-            onChange={(year) => handleEndChange(year)}
+            value={filter.endYear}
+            onChange={(year) => handleChange(year, "end")}
           />
         </Flex>
       </Popover.Dropdown>
