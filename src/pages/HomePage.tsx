@@ -4,10 +4,13 @@ import FilterInput from "../components/FilterInput/FilterInput";
 import { MoviesContext } from "../hooks/useMoviesContext";
 import MoviesGrid from "../components/MoviesGrid/MoviesGrid";
 import MovieCard from "../components/MoviesGrid/MovieCard";
+import filterMovies from "../helpers/filterMovies";
 
 export default function HomePage(): JSX.Element {
-  const { filteredMovies, isLoading, setFilters, filters } =
+  const { indexedMovies, isLoading, setFilters, filters } =
     useContext(MoviesContext);
+
+  const filteredMovies = filterMovies(indexedMovies, filters);
 
   if (isLoading) {
     return (

@@ -1,9 +1,7 @@
-import { Dispatch } from "react";
 import { FiltersInterface, IndexedMovie } from "../hooks/useMoviesContext";
 
 export default function filterMovies(
   indexedMovies: IndexedMovie[],
-  setFilteredMovies: Dispatch<IndexedMovie[]>,
   filters: FiltersInterface
 ) {
   let filteredMovies = indexedMovies;
@@ -22,5 +20,5 @@ export default function filterMovies(
     (movie) => movie.productionYear <= filters.endYear
   );
 
-  setFilteredMovies(filteredMovies);
+  return filteredMovies;
 }
