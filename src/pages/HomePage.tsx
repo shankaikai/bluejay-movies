@@ -21,8 +21,8 @@ export default function HomePage(): JSX.Element {
     <Flex direction="column" rowGap="xl">
       <FilterInput filters={filters} setFilters={setFilters} />
       <MoviesGrid>
-        {filteredMovies.map((movie, index) => (
-          <MovieCard key={index} movie={movie} index={index} />
+        {filteredMovies.map((movie) => (
+          <MovieCard key={movie.index} movie={movie} />
         ))}
       </MoviesGrid>
     </Flex>
