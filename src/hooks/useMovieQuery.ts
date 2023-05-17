@@ -13,7 +13,7 @@ export interface Movie {
   synopsisShort: string;
 }
 
-async function fetchMovies(): Promise<Movie[]> {
+async function fetchMovies<T>(): Promise<T> {
   return await axios
     .get(
       "https://remarkable-bombolone-51a3d9.netlify.app/.netlify/functions/movies"
